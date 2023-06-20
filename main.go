@@ -13,6 +13,12 @@ func init() {
 
 func main() {
 	r := gin.Default()
+
+	// user routers
+	r.POST("/sign-up", controllers.SignUp)
+	r.POST("/login", controllers.Login)
+
+	// todo routers
 	r.POST("/posts", controllers.PostCreate)
 	r.GET("/posts", controllers.PostsIndex)
 	r.GET("/posts/:id", controllers.PostShow)
