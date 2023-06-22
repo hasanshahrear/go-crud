@@ -12,6 +12,10 @@ func init() {
 
 func main() {
 	// Migrate the schema
-	initializers.DB.AutoMigrate(&models.Post{})
-	initializers.DB.AutoMigrate(&models.User{})
+	initializers.DB.AutoMigrate(&models.Brand{})
+	initializers.DB.AutoMigrate(&models.Category{})
+	initializers.DB.AutoMigrate(&models.Product{})
+	initializers.DB.AutoMigrate(&models.Purchase{})
+	initializers.DB.AutoMigrate(&models.Stock{})
+	initializers.DB.AutoMigrate(&models.Sales{})
 }
