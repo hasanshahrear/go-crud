@@ -25,7 +25,6 @@ func PostCreate(c *gin.Context) {
 	}
 
 	// return it
-
 	c.JSON(200, gin.H{
 		"message": post,
 	})
