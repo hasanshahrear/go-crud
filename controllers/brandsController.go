@@ -151,11 +151,21 @@ func DeleteBrand(c *gin.Context) {
 
 	// delete it
 	var brand models.Brand
-	err := initializers.DB.Where("id = ?", id).Delete(&brand).Error
+	err := initializers.DB.First(&brand, id).Error
+
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"statusCode": http.StatusNotFound,
-			"message":    "Brand not found",
+			"error":      "Brand not found",
+		})
+		return
+	}
+
+	err = initializers.DB.Delete(&brand, id).Error
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"statusCode": http.StatusNotFound,
+			"error":      "Brand not deleted",
 		})
 		return
 	}
