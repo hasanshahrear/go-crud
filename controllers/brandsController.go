@@ -23,6 +23,17 @@ func BrandCreate(c *gin.Context) {
 		return
 	}
 
+	// check if brand with the same name already exists
+	var existingBrand models.Brand
+	err = initializers.DB.Where("name = ?", body.Name).First(&existingBrand).Error
+	if err == nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"statusCode": http.StatusBadRequest,
+			"message":    "Brand already exists",
+		})
+		return
+	}
+
 	// create brand
 	brand := models.Brand{Name: body.Name}
 	err = initializers.DB.Create(&brand).Error
@@ -135,12 +146,12 @@ func UpdateBrand(c *gin.Context) {
 
 // brand delete
 func DeleteBrand(c *gin.Context) {
-	// get the id from  url
+	// get the id from the URL
 	id := c.Param("id")
 
 	// delete it
 	var brand models.Brand
-	err := initializers.DB.Delete(&brand, id).Error
+	err := initializers.DB.Where("id = ?", id).Delete(&brand).Error
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"statusCode": http.StatusNotFound,
@@ -149,7 +160,7 @@ func DeleteBrand(c *gin.Context) {
 		return
 	}
 
-	// return resonse
+	// return response
 	c.JSON(http.StatusOK, gin.H{
 		"statusCode": http.StatusOK,
 		"message":    "Delete successful",

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/shahrear/go-crud/controllers"
 	"github.com/shahrear/go-crud/initializers"
@@ -14,16 +16,19 @@ func init() {
 func main() {
 	r := gin.Default()
 
-	// user routers
-	r.POST("/sign-up", controllers.SignUp)
-	r.POST("/login", controllers.Login)
+	// public router
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Welcome to inventory",
+		})
+	})
 
-	// todo routers
-	r.POST("/posts", controllers.PostCreate)
-	r.GET("/posts", controllers.PostsIndex)
-	r.GET("/posts/:id", controllers.PostShow)
-	r.PUT("/posts/:id", controllers.PostUpdate)
-	r.DELETE("/posts/:id", controllers.PostDelete)
+	// brand router
+	r.GET("/brands", controllers.GetAllBrand)
+	r.GET("/brand/:id", controllers.GetSingleBrand)
+	r.POST("/brand/create", controllers.BrandCreate)
+	r.PUT("/brand/update/:id", controllers.UpdateBrand)
+	r.DELETE("/brand/delete/:id", controllers.DeleteBrand)
 
 	r.Run()
 }
