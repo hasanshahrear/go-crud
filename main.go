@@ -37,5 +37,12 @@ func main() {
 	r.PUT("/category/update/:id", controllers.UpdateCategory)
 	r.DELETE("/category/delete/:id", controllers.DeleteCategory)
 
+	// product router
+	r.GET("/products", controllers.GetAllProduct)
+	r.GET("/product/:id", controllers.GetSingleProduct)
+	r.POST("/product/create", controllers.ProductCreate)
+	r.PUT("/product/update/:id", controllers.UpdateProduct)
+	r.DELETE("/product/delete/:id", controllers.DeleteProduct)
+
 	r.Run()
 }
